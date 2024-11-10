@@ -38,6 +38,7 @@ public class GamePresenter
         {
             _gameLogic.RemoveFlag(row, column);
             _viewGame.RemoveCellFlag();
+
             SetViewMinesCount();
         }
         else
@@ -45,6 +46,7 @@ public class GamePresenter
             if (_gameLogic.SetFlag(row, column))
             {
                 _viewGame.SetCellFlag();
+
                 SetViewMinesCount();
             }
         }
