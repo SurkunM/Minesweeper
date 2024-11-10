@@ -13,16 +13,15 @@ public class GameLogic : IFieldConfiguration
 
     private readonly int _mineCount;
 
-    public int CurrentMineCount { get; private set; }
-
     public Dictionary<FieldConfigurationsKeys, int> FieldConfigurations { get; set; }
 
-    public FieldConfigurationsKeys FieldConfigurationsKeys { private get; set; }
+    public FieldConfigurationsKeys FieldConfigurationsKeys { private get; set; }    //delete
+
+    public int CurrentMineCount { get; private set; }
 
     public GameLogic(Dictionary<FieldConfigurationsKeys, int> fieldConfigurations)
     {
         FieldConfigurations = fieldConfigurations;
-        FieldConfigurationsKeys = new FieldConfigurationsKeys();
 
         _rowCount = FieldConfigurations[FieldConfigurationsKeys.Row];
         _columnCount = FieldConfigurations[FieldConfigurationsKeys.Column];
@@ -44,9 +43,28 @@ public class GameLogic : IFieldConfiguration
         return true;
     }
 
-    public void CheckNeighboringCell(int row, int column)
+    public int GetNeighboringMinesCount(int row, int column)
     {
+        int startRow = row == 0 ? 0 : row - 1;
+        int startColumn = column == 0 ? 0 : column - 1;
 
+        int endRow = row == _field.GetLength(0) ? row : row + 1;
+        int endColumn = column == _field.GetLength(1) ? column : column + 1;
+
+        int neighboringCount = 0;
+
+        for (int i = startRow; i < endRow; i++)
+        {
+            for (int j = startColumn; j < endColumn; j++)
+            {
+                if (_field[i, j] == (int)FieldCellNumbers.Mine)
+                {
+                    neighboringCount++;
+                }
+            }
+        }
+
+        return neighboringCount;
     }
 
     public bool SetFlag(int row, int column)
@@ -99,5 +117,10 @@ public class GameLogic : IFieldConfiguration
                 i--;
             }
         }
+    }
+
+    public void BreadthFirstSearch()
+    {
+
     }
 }

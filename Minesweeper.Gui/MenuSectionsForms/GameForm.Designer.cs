@@ -107,6 +107,7 @@
             panelGame.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             panelGame.Size = new Size(235, 235);
             panelGame.TabIndex = 3;
+            panelGame.TabStop = true;
             // 
             // GameForm
             // 

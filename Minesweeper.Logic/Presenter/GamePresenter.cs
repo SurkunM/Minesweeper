@@ -27,9 +27,20 @@ public class GamePresenter
             _viewGame.OpenMines(row, column);
             _viewGame.ShowEndGameDialog();
 
+            return;
         }
 
-        _viewGame.SetUnVisibleCell();
+        var cellDigit = _gameLogic.GetNeighboringMinesCount(row, column);
+
+        if (cellDigit == 0)
+        {
+            _viewGame.SetUnVisibleCell();
+        }
+        else
+        {
+            _viewGame.SetNeighboringMineCount(cellDigit, row, column);
+        }
+
     }
 
     public void ChangeCellFlag(bool hasCellFlag, int row, int column)

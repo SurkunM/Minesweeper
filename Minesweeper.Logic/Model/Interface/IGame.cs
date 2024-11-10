@@ -13,4 +13,7 @@ public interface IGame
     void SetUnVisibleCell();
 
     void ShowEndGameDialog();
+
+    void SetNeighboringMineCount(int count, int row, int column);
+
 }

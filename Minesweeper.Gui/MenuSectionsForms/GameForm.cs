@@ -17,6 +17,8 @@ public partial class GameForm : Form, IMenuSectionForm, IFieldConfiguration, IFi
 
     private readonly Image _flag;
 
+    private NeighboringMinesCountLabels _minesCountLabels;
+
     private bool _hasCellFlag;
 
     private readonly int _rowCount;
@@ -27,7 +29,7 @@ public partial class GameForm : Form, IMenuSectionForm, IFieldConfiguration, IFi
 
     public Dictionary<FieldConfigurationsKeys, int> FieldConfigurations { get; set; }
 
-    public FieldConfigurationsKeys FieldConfigurationsKeys { private get; set; }
+    public FieldConfigurationsKeys FieldConfigurationsKeys { private get; set; }// delete
 
     public GamePresenter GamePresenter { private get; set; } = default!;
 
@@ -36,8 +38,8 @@ public partial class GameForm : Form, IMenuSectionForm, IFieldConfiguration, IFi
     public GameForm(Dictionary<FieldConfigurationsKeys, int> fieldConfigurations)
     {
         FieldConfigurations = fieldConfigurations;
-        FieldConfigurationsKeys = new FieldConfigurationsKeys();
 
+        _minesCountLabels = new NeighboringMinesCountLabels();
         _mineImage = Image.FromFile("..\\..\\..\\GameImages\\RedMine.png");
         _flag = Image.FromFile("..\\..\\..\\GameImages\\Flag.png");
 
@@ -95,6 +97,12 @@ public partial class GameForm : Form, IMenuSectionForm, IFieldConfiguration, IFi
         _currentCellButton.Visible = false;
     }
 
+    public void SetNeighboringMineCount(int count, int row, int column)
+    {
+        panelGame.Controls.Remove(_currentCellButton);
+        panelGame.Controls.Add(_minesCountLabels.One, column, row);
+    }
+
     public void SetCellFlag()
     {
         if (_currentCellButton is null)
@@ -109,14 +117,12 @@ public partial class GameForm : Form, IMenuSectionForm, IFieldConfiguration, IFi
     {
         var button = panelGame.GetControlFromPosition(column, row) as Button;
 
-        if (button is not null)
+        if (button is null)
         {
-            var box = new PictureBox();
-            box.Image = _mineImage;
-
-            panelGame.SetCellPosition(box, new TableLayoutPanelCellPosition(column, row));
-            // button.Image = _mineImage;
+            throw new ArgumentNullException(nameof(button));
         }
+
+        button.Image = _mineImage;
     }
 
     public void RemoveCellFlag()
