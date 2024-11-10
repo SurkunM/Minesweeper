@@ -1,5 +1,6 @@
 ﻿using Minesweeper.Logic.Model.FieldKeys;
 using Minesweeper.Logic.Model.Interface;
+using System.Reflection;
 
 namespace Minesweeper.Logic.Model;
 
@@ -41,6 +42,17 @@ public class GameLogic : IFieldConfiguration
         }
 
         return true;
+    }
+
+    public void OpenAllMines(Action<int, int> action)
+    {
+        for (int i = 0; i < _rowCount; i++)
+        {
+            for (int j = 0; j < _columnCount; j++)
+            {
+                action(i, j);
+            }
+        }
     }
 
     public int GetNeighboringMinesCount(int row, int column)

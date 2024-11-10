@@ -24,7 +24,8 @@ public class GamePresenter
     {
         if (_gameLogic.IsMinedCell(row, column))
         {
-            _viewGame.OpenMines(row, column);
+
+            _gameLogic.OpenAllMines((x, y) => _viewGame.OpenMines(x, y));
             _viewGame.ShowEndGameDialog();
 
             return;
